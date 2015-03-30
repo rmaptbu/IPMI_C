@@ -23,3 +23,4 @@ imagesc(I2)
 subplot(1,3,3);
 imagesc(I3)
 colorbar
+ 

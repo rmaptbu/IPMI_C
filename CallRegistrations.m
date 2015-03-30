@@ -1,8 +1,8 @@
 t=[];
-for it=100:100:500
-    for ln=1:5
-        for lp=1:ln
-            for option=[1,2,3,4]
+for it=200:100:500
+    for ln=2:2:4
+        for lp=ln
+            for option=[0,1]
                 if option==1
                     str=' -nopy';
                 elseif option==2

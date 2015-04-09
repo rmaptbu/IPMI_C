@@ -18,14 +18,19 @@ for it=300
                 
                 for j=1:9                    
                     refimage=strcat('template_',num2str(j),'.nii');
-                    floatimage=strcat('template_',num2str(j),' .nii');
-                    floatsegment=strcat('template_',num2str(j),'_brain.nii');
-                    tic
-                    RegisterImage(refimage,floatimage,floatsegment,options,appendix);
-                    d=toc;
-                    t=cat(1,t,d);
-                    counter=counter+1; 
-                    counter/216
+                    for i=0:9
+                        counter=counter+1;
+                        if i~=j
+                            floatimage=strcat('template_',num2str(i),'.nii');
+                            floatsegment=strcat('template_',num2str(i),'_brain.nii');
+                            tic
+                            RegisterImage(refimage,floatimage,floatsegment,options,appendix);
+                            d=toc;
+                            t=cat(1,t,d);
+                            
+                            counter/72
+                        end
+                    end
                 end 
             end
         end

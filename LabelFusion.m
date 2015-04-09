@@ -30,7 +30,7 @@ for it=200:100:500
 %                     labels=cat(4,label,labels);
                     %calculate dice score
                     common=sum(sum(sum(label & ref)));
-                    x=x+1
+                    x=x+1 
                     dice(x)=2*common/(sum(sum(sum(label)))+(sum(sum(sum(ref)))));
                 end
 %                 labels_withoptions=cat(5,labels,labels_withoptions);

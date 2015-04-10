@@ -21,15 +21,18 @@ for j=0:9
             label=nifti(registered_segment);
             label=numeric(label.dat);
 %             registered_image=numeric(registered_image.dat);
-            labels=cat(4,label,labels);
-%             weight(i+1,j+1)=nmi(refI,registered_image);
+%             weight(j+1,i+1)=nmi(refI,registered_image);
+            labels=cat(4,label*(weight(j+1,i+1)-0.1),labels);
         end
-    end
+    end 
     %majority voting
     sum_labels=sum(labels,4);
+    max_consensus=max(max(max(sum_labels)));
+    
     label_fusion=zeros(size(sum_labels));
-    label_fusion(sum_labels>3)=1; %5 or more voted for that voxel
-    label_fusions=cat(4,label_fusion,label_fusions); %store data
+    label_fusion(sum_labels>0.5*max_concensus)=1; %6 or more voted for that voxel
+
+    %label_fusions=cat(4,label_fusion,label_fusions); %store data
     
     %calculate dice score
     common=sum(sum(sum(label_fusion & ref)));

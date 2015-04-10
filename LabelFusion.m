@@ -1,56 +1,33 @@
 
-ref='template_0_brain.nii';
-ref=nifti(ref);
-ref=numeric(ref.dat);
-refi='template_0.nii';
-refi=nifti(refi);
-refi=numeric(refi.dat);
-u=0;
-nmi0=[];
-%load labels
-labels_withoptions=[];
-labels=[];
-for it=300
-    for ln=3
-        for lp=ln
-            for option=4
-                if option==1
-                    str=' -nopy';
-                elseif option==2
-                    str=' -noConj';
-                elseif option==3
-                    str=' -noConj -nopy';
-                else
-                    str=[];
-                end
-%                 labels=[];
-                for j=1:9
-                    appendix=['_it',num2str(it),'_ln',num2str(ln),'_lp',num2str(lp),'_option',num2str(option)];                    
-                    floatimage=strcat('template_',num2str(j),'.nii');
-%                     registered_segment=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_brain',appendix,'.nii');
-                    label=nifti(floatimage);
-                    label=numeric(label.dat);
-%                     labels=cat(4,label,labels);
-                    %calculate dice score
-%                     common=sum(sum(sum(label & ref)));
-                    u=u+1 
-                    nmi0=cat(1,nmi0,jointEntropy(refi,label));
-%                     dice(x)=2*common/(sum(sum(sum(label)))+(sum(sum(sum(ref)))));
-                end
-%                 labels_withoptions=cat(5,labels,labels_withoptions);
-            end
+for j=0:9
+    j
+    labels=[];
+    label_fusions=[];
+    
+    refstr=strcat('template_',num2str(j),'_brain.nii');
+    ref=nifti(refstr);
+    ref=numeric(ref.dat);
+    for i=0:9 %for each template
+
+        %load labels
+        if i~=j
+            appendix=['_it',num2str(300),'_ln',num2str(3),'_lp',num2str(3),'_option',num2str(4)];
+            floatimage=strcat('template_',num2str(i),'.nii');
+            registered_segment=strcat('ref_',refstr(7:10),'_flo_',floatimage(1:5),floatimage(10),'_brain',appendix,'.nii');
+            label=nifti(registered_segment);
+            label=numeric(label.dat);
+            labels=cat(4,label,labels);
         end
     end
+    %majority voting
+    sum_labels=sum(labels,4);
+    label_fusion=zeros(size(sum_labels));
+    label_fusion(sum_labels>4)=1; %5 or more voted for that voxel
+    label_fusions=cat(4,label_fusion,label_fusions); %store data
+    
+    %calculate dice score
+    common=sum(sum(sum(label_fusion & ref)));
+    dice(j+1)=2*common/(sum(sum(sum(label_fusion)))+(sum(sum(sum(ref)))));
 end
 
 
-% %majority voting
-% sum_labels=sum(labels,4);
-% label_fusion=zeros(size(sum_labels));
-% label_fusion(sum_labels>4)=1; %5 or more voted for that voxel
-
-%calculate dice score
-% for i=1:216
-%     common=sum(sum(sum(squeeze(labels(:,:,:,i)) & ref)));
-%     dice(i)=2*common/(sum(sum(sum(squeeze(labels(:,:,:,i)))))+(sum(sum(sum(ref)))));
-% end

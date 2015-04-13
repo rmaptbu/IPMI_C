@@ -17,12 +17,13 @@ for j=0:9
             floatimage=strcat('template_',num2str(i),'.nii');
             registered_segment=strcat('ref_',refstr(7:10),'_flo_',floatimage(1:5),floatimage(10),'_brain',appendix,'.nii');
             registered_image=strcat('ref_',refstr(7:10),'_flo_',floatimage(1:5),floatimage(10),'_nrr',appendix,'.nii');
-%             registered_image=nifti(registered_image);
             label=nifti(registered_segment);
             label=numeric(label.dat);
-%             registered_image=numeric(registered_image.dat);
-%             weight(j+1,i+1)=nmi(refI,registered_image);
-            labels=cat(4,label*(weight(j+1,i+1)-0.1),labels);
+            labels=cat(4,label,labels);
+            
+            %dice score
+            common=sum(sum(sum(label & ref)));
+            dice_raw(j+1,i+1)=2*common/(sum(sum(sum(label)))+(sum(sum(sum(ref)))));
         end
     end 
     %majority voting
@@ -30,13 +31,13 @@ for j=0:9
     max_consensus=max(max(max(sum_labels)));
     
     label_fusion=zeros(size(sum_labels));
-    label_fusion(sum_labels>0.5*max_concensus)=1; %6 or more voted for that voxel
+    label_fusion(sum_labels>0.5*max_concensus)=1; % 50% or more voted for that voxel
 
     %label_fusions=cat(4,label_fusion,label_fusions); %store data
     
     %calculate dice score
     common=sum(sum(sum(label_fusion & ref)));
-    dice(j+1)=2*common/(sum(sum(sum(label_fusion)))+(sum(sum(sum(ref)))));
+    dice_f(j+1)=2*common/(sum(sum(sum(label_fusion)))+(sum(sum(sum(ref)))));
 end
 
 

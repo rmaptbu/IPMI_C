@@ -1,9 +1,13 @@
-function [I1,I2,I3] = CreateDifferenceImages(image1, image2)
+function [I1,I2,I3] = CreateDifferenceImages(Im1, Im2)
 %Convert Nifti file into array
-Im1=nifti(image1);
-Im2=nifti(image2);
+if isa(Im1,'char')
+Im1=nifti(Im1);
 Im1=numeric(Im1.dat);
+end
+if isa(Im2,'char')
+Im2=nifti(Im2);
 Im2=numeric(Im2.dat);
+end
 
 Im_diff=Im2-Im1;
 I1=imrotate(fliplr(squeeze(Im_diff(120,:,:))),-90);

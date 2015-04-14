@@ -25,7 +25,7 @@ for j=0:9
             %find nmi
             registered_image=nifti(registered_image);
             registered_image=numeric(registered_image.dat);
-            weight(j+1,i+1)=(entropy(refI)+entropy(registered_image))/JointEntropy(refI,registered_image);
+            weight(j+1,i+1)=NormalisedMutualInformation(refI,registered_image);
             
             %Store labels (comment out one line to toggle weighting)
             labels=cat(4,label*(weight(j+1,i+1)),labels);            

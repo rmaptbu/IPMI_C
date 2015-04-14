@@ -1,6 +1,4 @@
-%  function z = JointEntropy(im1, im2)
- im1=refI;
- im2=refI;
+ function nmi = NormalisedMutualInformation(im1, im2)
 
 assert(numel(im1) == numel(im2));
 [C1,~,indrow] = unique(im1(:));
@@ -25,3 +23,18 @@ jointEntropy = -sum(jointProb1DNoZero.*log2(jointProb1DNoZero));
 %find entropy of individual images
 histogramImage1 = sum(jointHistogram, 1);
 histogramImage2 = sum(jointHistogram, 2);
+
+propImage1 = histogramImage1 / numel(indrow); %normalise
+propImage2 = histogramImage2 / numel(indrow); %normalise
+
+%Get rid of zeroes
+indNoZeroIm1 = histogramImage1 ~= 0;
+jointProb1DNoZeroIm1 = propImage1(indNoZeroIm1);
+indNoZeroIm2 = histogramImage2 ~= 0;
+jointProb1DNoZeroIm2 = propImage2(indNoZeroIm2);
+
+entropyIm1 = -sum(jointProb1DNoZeroIm1.*log2(jointProb1DNoZeroIm1));
+entropyIm2 = -sum(jointProb1DNoZeroIm2.*log2(jointProb1DNoZeroIm2));
+
+nmi=(entropyIm1+entropyIm2)/jointEntropy;
+

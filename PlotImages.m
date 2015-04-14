@@ -106,7 +106,7 @@ title('fusion')
 colormap Gray;
 imagesc(I1(40:end-40,:))
 
-[I1,I2,I3] = CreateDifferenceImages('template_0_brain.nii',squeeze(label_fusions_5(:,:,:,10)));
+[I1,I2,I3] = CreateDifferenceImages('template_9_brain.nii',squeeze(label_fusion));
 figure(4);
 axes4 = axes('Parent',figure(4),'YTickLabel',{'','','','',''},...
     'XTickLabel',{'','','','','',''},...

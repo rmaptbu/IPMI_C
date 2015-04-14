@@ -31,9 +31,9 @@ for j=0:9
     max_consensus=max(max(max(sum_labels)));
     
     label_fusion=zeros(size(sum_labels));
-    label_fusion(sum_labels>0.4*max_concensus)=1; % 50% or more voted for that voxel
+    label_fusion(sum_labels>0.7*max_concensus)=1; % 50% or more voted for that voxel
 
-    label_fusions=cat(4,label_fusions,label_fusion); %store data
+%     label_fusions=cat(4,label_fusions,label_fusion); %store data
     
     %calculate dice score
     common=sum(sum(sum(label_fusion & ref)));

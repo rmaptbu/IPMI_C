@@ -1,9 +1,9 @@
 function []=RegisterImage(refimage,floatimage,floatsegment,options,appendix)
-affine_image=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_affine.nii');
-affine_matrix=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_affine.txt');
-nonregit_image=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_nrr',appendix,'.nii');
-nonregit_image_cpp=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_nrr_cpp',appendix,'.nii');
-registered_segment=strcat('ref_',refimage(7:10),'_flo_',floatimage(1:5),floatimage(10),'_brain',appendix,'.nii');
+affine_image=strcat('ref_',refimage(1:7),'_flo_',floatimage(1:4),floatimage(10),'_affine.nii');
+affine_matrix=strcat('ref_',refimage(1:7),'_flo_',floatimage(1:4),floatimage(10),'_affine.txt');
+nonregit_image=strcat('ref_',refimage(1:7),'_flo_',floatimage(1:4),floatimage(10),'_nrr',appendix,'.nii');
+nonregit_image_cpp=strcat('ref_',refimage(1:7),'_flo_',floatimage(1:4),floatimage(10),'_nrr_cpp',appendix,'.nii');
+registered_segment=strcat('ref_',refimage(1:7),'_flo_',floatimage(1:4),floatimage(10),'_brain',appendix,'.nii');
 
 dos(sprintf(['ceg_aladin' ...
 ' -ref ',refimage ...
@@ -26,3 +26,4 @@ dos(sprintf(['ceg_resample ' ...
 ' -res ',registered_segment ...
 ' -trans ',nonregit_image_cpp ...
 ' -inter 0']))
+

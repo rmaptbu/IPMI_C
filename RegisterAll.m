@@ -1,5 +1,5 @@
 label_fusions=[];
-for i=10:14
+parfor i=10:14
     for groupi=[0,1]
         for scantimei=[0,1]
             if groupi
@@ -13,8 +13,8 @@ for i=10:14
                 scantime='followup';
             end
             for j=0:9
-                options=['-maxit',' ','300',' -ln',' ','3', ' -lp',' ','3'];
-                appendix=['_it','300','_ln',num2str(3),'_lp',num2str(3)];
+                options=['-maxit',' ','100',' -ln',' ','3', ' -lp',' ','3'];
+                appendix=['_it','100','_ln',num2str(3),'_lp',num2str(3)];
                 
                 %register and resample floating segmentation
                 refimage=strcat(group,'_',num2str(i),'_',scantime,'.nii');

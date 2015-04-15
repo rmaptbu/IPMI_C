@@ -38,7 +38,7 @@ labels=[];
 %             dice_raw(j+1,i+1)=2*common/(sum(label(:))+(sum(ref(:))));
             
         end
-    end 
+%     end 
     %majority voting
     sum_labels=sum(labels,4);
     max_consensus=max(sum_labels(:));
